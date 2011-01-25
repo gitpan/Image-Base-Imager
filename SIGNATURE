@@ -1,0 +1,49 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.66.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 842745cb706f8f2126506f544492f7a80dbe29b3 COPYING
+SHA1 38334acdd9af7a2c469c4387f54eeba6c633b51b Changes
+SHA1 9d3cd32137a9115249ad22e020941dcd6bd8c2ca MANIFEST
+SHA1 e725bd968b00d88cc13780dd826d5c8d6546d62a MANIFEST.SKIP
+SHA1 82b50371d8f3c756d4af1c1236d6ac26db513ef5 META.yml
+SHA1 0d5bf452249e722456f832932325fdb4b2352565 Makefile.PL
+SHA1 d06a709abf3affb982ebba2e52e73a41fd51d991 debian/changelog
+SHA1 ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 debian/compat
+SHA1 accfbd8a09ca7e025885dd03e8bb9ef6b16215e0 debian/control
+SHA1 11eda31fbf516eae32c6a0fe1cd6887d72fe4bf5 debian/copyright
+SHA1 39ae42ea84eefdd51b29714c968dc0bab1475ea7 debian/rules
+SHA1 61652cd1568dcf2614df833eba241755eee34e89 debian/source/format
+SHA1 09d03cf5d7c1a8c8899e31c50994acdcfc8bae5c debian/watch
+SHA1 577031eec9c1d90ed8e1ae3d9c589d1565189a03 devel/imager.pl
+SHA1 64711d9f54476ad5feff40cfdc2c885fe805ef10 inc/MyMakeMakerExtras.pm
+SHA1 7a988b2aa7ed09f1cb9029a1ef3f0e2139dca0cf inc/my_pod2html
+SHA1 6be36edf74c325ccad8924e9dec5a3db57ec5b8a lib/Image/Base/Imager.pm
+SHA1 0c50766ac012fced0b8afa08002235e7c324ff4d t/Imager-load.t
+SHA1 b6c8717d32a9dc010e64e351e3c6e01125c93681 t/Imager.t
+SHA1 fd7ad68d9696ce2b58655b9d6c006c12540878cd t/MyTestHelpers.pm
+SHA1 0ad574f6fd763329f5202ced7f521398dcffa482 t/MyTestImageBase.pm
+SHA1 9127f78a0dfa04976acbb979dd7862ef59a74c58 xt/0-META-read.t
+SHA1 37abd43b41068804ea4bb099fdd89af21be82926 xt/0-Test-DistManifest.t
+SHA1 8f93fb4c8f0424a4442cc93c9a2e86342ef55281 xt/0-Test-Pod.t
+SHA1 1de8f07883f6bf1a2ef79f2cb8adf1deb3f61cee xt/0-Test-Synopsis.t
+SHA1 fb517c2fae5ddac559318bf6a224949115ea3129 xt/0-Test-YAML-Meta.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iD8DBQFNP1T8LFMCIV9q3ToRAosOAJ0QlBzIDEMDIF1W0DCGsJ6vAK6tLQCdHdKd
+85plraaMMm4Ns4n7N3FA7XI=
+=+3LH
+-----END PGP SIGNATURE-----
