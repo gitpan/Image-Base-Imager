@@ -27,15 +27,26 @@ use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings() }
 
 plan tests => 1546;
-use_ok ('Image::Base::Imager');
 
+require Imager;
 diag "Imager VERSION ",Imager->VERSION;
+diag "Imager write_types: ",join(',',Imager->write_types);
 
+my $test_file_format;
+{
+  my @write_types = Imager->write_types;
+  if (! @write_types) {
+    plan skip_all => 'due to strange no write_types at all';
+  }
+  $test_file_format = $write_types[0];
+}
+
+use_ok ('Image::Base::Imager');
 
 #------------------------------------------------------------------------------
 # VERSION
 
-my $want_version = 1;
+my $want_version = 2;
 is ($Image::Base::Imager::VERSION,
     $want_version, 'VERSION variable');
 is (Image::Base::Imager->VERSION,
@@ -125,23 +136,22 @@ ok (! eval { Image::Base::Imager->VERSION($check_version); 1 },
 #------------------------------------------------------------------------------
 # load() errors
 
-my $filename = 'tempfile.png';
-diag "Tempfile $filename";
-unlink $filename;
-ok (! -e $filename, "removed any existing $filename");
+my $temp_filename = "tempfile.$test_file_format";
+diag "Tempfile $temp_filename";
+unlink $temp_filename;
+ok (! -e $temp_filename, "removed any existing $temp_filename");
 END {
-  if (defined $filename) {
-    diag "Remove tempfile $filename";
-    unlink $filename
-      or diag "Oops, cannot remove $filename: $!";
+  if (defined $temp_filename) {
+    diag "Remove tempfile $temp_filename";
+    unlink $temp_filename
+      or diag "Oops, cannot remove $temp_filename: $!";
   }
 }
 
 {
   my $eval_ok = 0;
   my $ret = eval {
-    my $image = Image::Base::Imager->new
-      (-file => $filename);
+    my $image = Image::Base::Imager->new (-file => $temp_filename);
     $eval_ok = 1;
     $image
   };
@@ -155,7 +165,7 @@ END {
   my $eval_ok = 0;
   my $image = Image::Base::Imager->new;
   my $ret = eval {
-    $image->load ($filename);
+    $image->load ($temp_filename);
     $eval_ok = 1;
     $image
   };
@@ -171,11 +181,11 @@ END {
 
 {
   my $eval_ok = 0;
-  my $filename = 'no/such/directory/foo.png';
+  my $nosuchdir = "no/such/directory/foo.$test_file_format";
   my $image = Image::Base::Imager->new (-width => 1,
                                         -height => 1);
   my $ret = eval {
-    $image->save ($filename);
+    $image->save ($nosuchdir);
     $eval_ok = 1;
     $image
   };
@@ -187,11 +197,11 @@ END {
 }
 {
   my $eval_ok = 0;
-  my $filename = 'tempfile.unrecognisedextension';
+  my $nosuchext = 'tempfile.unrecognisedextension';
   my $image = Image::Base::Imager->new (-width => 1,
                                         -height => 1);
   my $ret = eval {
-    $image->save ($filename);
+    $image->save ($nosuchext);
     $eval_ok = 1;
     $image
   };
@@ -213,20 +223,20 @@ END {
   is ($imager_obj->getheight, 10);
   my $image = Image::Base::Imager->new
     (-imager => $imager_obj);
-  $image->save ($filename);
-  ok (-e $filename, "save() to $filename, -e exists");
-  cmp_ok (-s $filename, '>', 0, "save() to $filename, -s non-empty");
+  $image->save ($temp_filename);
+  ok (-e $temp_filename, "save() to $temp_filename, -e exists");
+  cmp_ok (-s $temp_filename, '>', 0, "save() to $temp_filename, -s non-empty");
 }
 {
-  my $image = Image::Base::Imager->new (-file => $filename);
+  my $image = Image::Base::Imager->new (-file => $temp_filename);
   my $imager_obj = $image->{'-imager'};
-  is ($image->get('-file_format'), 'png',
+  is ($image->get('-file_format'), $test_file_format,
      'load() with new(-file)');
 }
 {
   my $image = Image::Base::Imager->new;
-  $image->load ($filename);
-  is ($image->get('-file_format'), 'png',
+  $image->load ($temp_filename);
+  is ($image->get('-file_format'), $test_file_format,
       'load() method');
 }
 
@@ -237,17 +247,17 @@ END {
   my $imager_obj = Imager->new (xsize => 10, ysize => 10);
   my $image = Image::Base::Imager->new
     (-imager      => $imager_obj,
-     -file_format => 'jpeg');
-  $image->save ($filename);
-  ok (-e $filename, 'save() with -file_format exists');
-  cmp_ok (-s $filename, '>', 0, 'save() with -file_format not empty');
+     -file_format => $test_file_format);
+  $image->save ($temp_filename);
+  ok (-e $temp_filename, 'save() with -file_format exists');
+  cmp_ok (-s $temp_filename, '>', 0, 'save() with -file_format not empty');
 
-  # system ("ls -l $filename");
-  # system ("file $filename");
+  # system ("ls -l $temp_filename");
+  # system ("file $temp_filename");
 }
 {
-  my $image = Image::Base::Imager->new (-file => $filename);
-  is ($image->get('-file_format'), 'jpeg',
+  my $image = Image::Base::Imager->new (-file => $temp_filename);
+  is ($image->get('-file_format'), $test_file_format,
       'save() -file_format load back format');
 }
 
@@ -256,13 +266,13 @@ END {
 
 {
   my $image = Image::Base::Imager->new (-width => 1,
-                                                        -height => 1,
-                                                        -file_format => 'png');
-  unlink $filename;
-  open OUT, "> $filename" or die;
+                                        -height => 1,
+                                        -file_format => $test_file_format);
+  unlink $temp_filename;
+  open OUT, "> $temp_filename" or die;
   $image->save_fh (\*OUT);
   close OUT or die;
-  ok (-s $filename, 'save_fh() not empty');
+  ok (-s $temp_filename, 'save_fh() not empty');
 }
 
 #------------------------------------------------------------------------------
@@ -270,10 +280,10 @@ END {
 
 {
   my $image = Image::Base::Imager->new;
-  open IN, "< $filename" or die;
+  open IN, "< $temp_filename" or die;
   $image->load_fh (\*IN);
   close IN or die;
-  is ($image->get('-file_format'), 'png',
+  is ($image->get('-file_format'), $test_file_format,
       'load_fh() -file_format');
 }
 
@@ -313,14 +323,14 @@ SKIP: {
   is ($image->get ('-hotx'), 3, 'get(-hotx)');
   is ($image->get ('-hoty'), 4, 'get(-hoty)');
 
-  $image->save($filename);
-  open IN, "< $filename" or die;
+  $image->save($temp_filename);
+  open IN, "< $temp_filename" or die;
   my $content_one = do { local $/; <IN> }; # slurp
   close IN or die;
 
   $image->set (-hotx => 7, -hoty => 8);
-  $image->save($filename);
-  open IN, "< $filename" or die;
+  $image->save($temp_filename);
+  open IN, "< $temp_filename" or die;
   my $content_two = do { local $/; <IN> }; # slurp
   close IN or die;
 

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Image-Base-Imager
-version:            1
+version:            2
 abstract:           Image::Base on PNG files using Imager.
 author:
     - Kevin Ryde <user42@zip.com.au>
