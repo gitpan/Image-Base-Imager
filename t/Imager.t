@@ -19,7 +19,6 @@
 
 use 5.004;
 use strict;
-use warnings;
 use Test::More;
 
 use lib 't';
@@ -46,7 +45,7 @@ use_ok ('Image::Base::Imager');
 #------------------------------------------------------------------------------
 # VERSION
 
-my $want_version = 2;
+my $want_version = 3;
 is ($Image::Base::Imager::VERSION,
     $want_version, 'VERSION variable');
 is (Image::Base::Imager->VERSION,

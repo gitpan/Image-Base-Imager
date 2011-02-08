@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Image-Base-Imager
-version:            2
+version:            3
 abstract:           Image::Base on PNG files using Imager.
 author:
     - Kevin Ryde <user42@zip.com.au>
@@ -15,7 +15,6 @@ requires:
     Imager:       0
     perl:         5.004
     Test::More:   0
-    warnings:     0
 resources:
     homepage:  http://user42.tuxfamily.org/image-base-imager/index.html
     license:   http://www.gnu.org/licenses/gpl.html

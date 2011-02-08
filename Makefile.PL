@@ -19,7 +19,6 @@
 
 use 5.004;
 use strict;
-use warnings;
 use ExtUtils::MakeMaker;
 use lib 'inc';
 use MyMakeMakerExtras;
@@ -32,18 +31,18 @@ MyMakeMakerExtras::WriteMakefile
    LICENSE      => 'gpl',
    SIGN         => 1,
    PREREQ_PM    => {
-                    'warnings' => 0,
                     'Image::Base' => '1.12',  # for ellipse() $fill
                     'Imager' => 0,
 
                     # for testing
                     'Test::More' => 0,
                    },
+   # Imager goes right back to 5.003 or some such
    MIN_PERL_VERSION => '5.004',
 
-   META_MERGE
-   => { resources
-        => { homepage => 'http://user42.tuxfamily.org/image-base-imager/index.html',
-           },
-      },
+   META_MERGE =>
+   { resources =>
+     { homepage => 'http://user42.tuxfamily.org/image-base-imager/index.html',
+     },
+   },
   );

@@ -19,7 +19,6 @@
 package Image::Base::Imager;
 use 5.004;
 use strict;
-use warnings;
 use Carp;
 use Imager;
 use vars '$VERSION', '@ISA';
@@ -27,7 +26,7 @@ use vars '$VERSION', '@ISA';
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 2;
+$VERSION = 3;
 
 # uncomment this to run the ### lines
 #use Smart::Comments '###';
