@@ -17,6 +17,9 @@ with Image-Base-Imager.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
+Version 4, February 2011
+    - tests use plain Test.pm instead
+
 Version 3, February 2011
     - fix Makefile.PL for perl 5.6 and earlier
 

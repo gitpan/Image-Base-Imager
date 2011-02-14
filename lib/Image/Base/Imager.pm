@@ -26,7 +26,7 @@ use vars '$VERSION', '@ISA';
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 3;
+$VERSION = 4;
 
 # uncomment this to run the ### lines
 #use Smart::Comments '###';
@@ -297,7 +297,7 @@ sub add_colours {
 1;
 __END__
 
-=for stopwords PNG Imager filename undef Ryde Zlib Imager RGB
+=for stopwords PNG Imager filename Ryde Zlib Imager RGB JPEG PNM GIF BMP ICO Paletted paletted pre-load png jpeg imager hotspot Image-Base-Imager paletted
 
 =head1 NAME
 
@@ -430,9 +430,9 @@ There's no attempt to check or validate the C<-file_format> value, since
 it's possible to add new formats to Imager at run time.  Expect C<save()> to
 croak if the format is unknown.
 
-=item C<-hotx> (integer or undef, default undef)
+=item C<-hotx> (integer or C<undef>, default C<undef>)
 
-=item C<-hoty> (integer or undef, default undef)
+=item C<-hoty> (integer or C<undef>, default C<undef>)
 
 The cursor hotspot in CUR images (variant of ICO).  These are the
 C<cur_hotspotx> and C<cur_hotspoty> tags in the Imager object.
@@ -450,13 +450,6 @@ This is similar to the C<-ncolours> of C<Image::Xpm>.
 
 L<Image::Base>,
 L<Imager>
-
-L<Image::Base::GD>,
-L<Image::Base::PNGwriter>,
-L<Image::Base::Prima>,
-L<Image::Xbm>,
-L<Image::Xpm>,
-L<Image::Pbm>
 
 =head1 HOME PAGE
 

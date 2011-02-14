@@ -35,7 +35,7 @@ MyMakeMakerExtras::WriteMakefile
                     'Imager' => 0,
 
                     # for testing
-                    'Test::More' => 0,
+                    'Test' => 0,
                    },
    # Imager goes right back to 5.003 or some such
    MIN_PERL_VERSION => '5.004',

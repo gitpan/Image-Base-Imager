@@ -21,6 +21,9 @@
 use Image::Base::Imager;
 my $image = Image::Base::Imager->new (-width => 1, -height => 1);
 
-use Test::More tests => 1;
-ok (1, 'Image::Base::Imager load as first thing');
+use Test;
+BEGIN {
+  plan tests => 1;
+}
+ok (1, 1, 'Image::Base::Imager load as first thing');
 exit 0;

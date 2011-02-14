@@ -1,3 +1,5 @@
+#!/usr/bin/perl -w
+
 # Copyright 2011 Kevin Ryde
 
 # This file is part of Image-Base-Imager.
@@ -15,8 +17,8 @@
 # You should have received a copy of the GNU General Public License along
 # with Image-Base-Imager.  If not, see <http://www.gnu.org/licenses/>.
 
+use 5.004;
 use strict;
-use warnings;
 use Imager;
 
 # uncomment this to run the ### lines
@@ -117,8 +119,8 @@ use Smart::Comments;
   my $colorcount = $imager->getcolorcount(maxcolors=>512);
   print "Actual number of colors in image: ";
   print defined($colorcount) ? $colorcount : ">512", "\n";
-  print "Palette colorcount: ",$imager->colorcount//'[undef]',"\n";
-  print "Palette maxcolors:  ",$imager->maxcolors//'[undef]',"\n";
+  print "Palette colorcount: ",or_undef($imager->colorcount),"\n";
+  print "Palette maxcolors:  ",or_undef($imager->maxcolors),"\n";
   print "Type:         ", $imager->type(),        "\n";
 
   print "Tags:\n";
@@ -141,6 +143,11 @@ use Smart::Comments;
   system ('file /tmp/zz*');
 
   exit 0;
+
+  sub or_undef {
+    my ($thing) = @_;
+    return (defined $thing ? $thing : '[undef]');
+  }
 }
 
 {
