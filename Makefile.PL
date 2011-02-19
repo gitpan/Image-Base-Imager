@@ -32,7 +32,10 @@ MyMakeMakerExtras::WriteMakefile
    SIGN         => 1,
    PREREQ_PM    => {
                     'Image::Base' => '1.12',  # for ellipse() $fill
-                    'Imager' => 0,
+
+                    # maybe 0.39 of Nov 2001 for oop style tags,
+                    # oopery is from somewhere post 0.20 at least
+                    'Imager' => 0.39,
 
                     # for testing
                     'Test' => 0,

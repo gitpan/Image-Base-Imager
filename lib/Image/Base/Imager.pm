@@ -20,13 +20,18 @@ package Image::Base::Imager;
 use 5.004;
 use strict;
 use Carp;
+
+# maybe Imager 0.39 of Nov 2001 for oop style tags, or something post 0.20
+# for the oopery, but don't think need to force that here (just list in the
+# Makefile.PL PREREQ_PM)
 use Imager;
+
 use vars '$VERSION', '@ISA';
 
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 4;
+$VERSION = 5;
 
 # uncomment this to run the ### lines
 #use Smart::Comments '###';

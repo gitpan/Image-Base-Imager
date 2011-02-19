@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Image-Base-Imager
-version:            4
+version:            5
 abstract:           Image::Base on PNG files using Imager.
 author:
     - Kevin Ryde <user42@zip.com.au>
@@ -12,7 +12,7 @@ build_requires:
     ExtUtils::MakeMaker:  0
 requires:
     Image::Base:  1.12
-    Imager:       0
+    Imager:       0.39
     perl:         5.004
     Test:         0
 resources:

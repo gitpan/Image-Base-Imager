@@ -15,12 +15,12 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 842745cb706f8f2126506f544492f7a80dbe29b3 COPYING
-SHA1 dd48f5c6dc26daeb64a27b7de35b78ed73df9346 Changes
+SHA1 566d9038beededaa7ae966ae0417c8d15b01661a Changes
 SHA1 9d3cd32137a9115249ad22e020941dcd6bd8c2ca MANIFEST
 SHA1 6c771cc4b0718f7bc9c9af01889700d7bce0a8e6 MANIFEST.SKIP
-SHA1 e37362fef20457d88b23239c8c57154fcee8bb24 META.yml
-SHA1 9d4b6d7d04aad2a76ff50b77d5ff1bda5bcdc9dc Makefile.PL
-SHA1 e22540973d35ac70d941023e79df292edca62abf debian/changelog
+SHA1 26b82d558380163e6e3ac967fab76fc863ef6a12 META.yml
+SHA1 efafaa104b8c2659487e5bf8de510053899b30af Makefile.PL
+SHA1 630fc083c0554d01817a57a3dfbc966a57db5eb8 debian/changelog
 SHA1 ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 debian/compat
 SHA1 919a8df93bd373c2b532136147926f7b2959001b debian/control
 SHA1 11eda31fbf516eae32c6a0fe1cd6887d72fe4bf5 debian/copyright
@@ -28,11 +28,11 @@ SHA1 39ae42ea84eefdd51b29714c968dc0bab1475ea7 debian/rules
 SHA1 61652cd1568dcf2614df833eba241755eee34e89 debian/source/format
 SHA1 09d03cf5d7c1a8c8899e31c50994acdcfc8bae5c debian/watch
 SHA1 2ca89efd7570e1f986dd9e753da37e76577f6efd devel/imager.pl
-SHA1 cf647ee28a7aaad9896d0063f8a2529919ccfcd3 inc/MyMakeMakerExtras.pm
+SHA1 2ce23e10df69678421fc8322bbbfeb4f7d1c42f0 inc/MyMakeMakerExtras.pm
 SHA1 7a988b2aa7ed09f1cb9029a1ef3f0e2139dca0cf inc/my_pod2html
-SHA1 5a32be56739dca8b156079d3992c2eb648ac1e5c lib/Image/Base/Imager.pm
+SHA1 1cba07d64531605cd24a3128820a29ca7926c698 lib/Image/Base/Imager.pm
 SHA1 94a0305d03df9e35ffd55604f609f31e01d9d2d0 t/Imager-load.t
-SHA1 abb693dcee139abf0c06ca9e600cfcfbe91151a2 t/Imager.t
+SHA1 8e25b719234715dc5b9a1d9745027b28f48a9820 t/Imager.t
 SHA1 03c88c070f88d97d73de2e155b1eba06a79a388c t/MyTestHelpers.pm
 SHA1 441914b68532584041870389b43132aa5296cbce t/MyTestImageBase.pm
 SHA1 0279c9310ec528d10a2a14e602bf98f1c776cce1 xt/0-META-read.t
@@ -43,7 +43,7 @@ SHA1 4c14845872d6eb4280e12f862d6ba2c343358c60 xt/0-Test-YAML-Meta.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iD8DBQFNWaGELFMCIV9q3ToRAmtOAJ9UcgOm2gbizc+v5v9AjpZlNnVGEQCdEW8m
-kjCU0kyqXUwwdlksN9yaL8s=
-=oB32
+iD8DBQFNYEKpLFMCIV9q3ToRArGdAJ4mDefT7lMe/WCmERORm2lko4XA0wCgolmE
++gUGHRBaHSpnXkN4OZVNcQc=
+=Odqq
 -----END PGP SIGNATURE-----
