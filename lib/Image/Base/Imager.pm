@@ -31,7 +31,7 @@ use vars '$VERSION', '@ISA';
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 5;
+$VERSION = 6;
 
 # uncomment this to run the ### lines
 #use Smart::Comments '###';
@@ -258,7 +258,7 @@ sub rectangle {
 
 sub ellipse {
   my ($self, $x1, $y1, $x2, $y2, $colour, $fill) = @_;
-  ### Image-Imager ellipse: "$x1, $y1, $x2, $y2, $colour"
+  ### Image-Base-Imager ellipse: "$x1, $y1, $x2, $y2, $colour"
 
   my $i = $self->{'-imager'};
   my $diam = $x2-$x1;
