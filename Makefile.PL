@@ -31,7 +31,8 @@ MyMakeMakerExtras::WriteMakefile
    LICENSE      => 'gpl',
    SIGN         => 1,
    PREREQ_PM    => {
-                    'Image::Base' => '1.12',  # for ellipse() $fill
+                    # actually only need the base diamond() for testing
+                    'Image::Base' => '1.16',  # for diamond()
 
                     # maybe 0.39 of Nov 2001 for oop style tags,
                     # oopery is from somewhere post 0.20 at least
@@ -46,6 +47,13 @@ MyMakeMakerExtras::WriteMakefile
    META_MERGE =>
    { resources =>
      { homepage => 'http://user42.tuxfamily.org/image-base-imager/index.html',
+     },
+     optional_features =>
+     { maximum_tests =>
+       { description => 'Have "make test" do as much as possible.',
+         requires => { 'Test::Weaken' => '2.000',
+                     },
+       },
      },
    },
   );

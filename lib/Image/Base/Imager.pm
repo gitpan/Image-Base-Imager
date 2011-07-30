@@ -16,6 +16,10 @@
 # with Image-Base-Imager.  If not, see <http://www.gnu.org/licenses/>.
 
 
+
+# Imager::Draw -- drawing operations
+#
+
 package Image::Base::Imager;
 use 5.004;
 use strict;
@@ -31,10 +35,10 @@ use vars '$VERSION', '@ISA';
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 6;
+$VERSION = 7;
 
 # uncomment this to run the ### lines
-#use Smart::Comments '###';
+#use Devel::Comments '###';
 
 # As of Imager 0.79 there's nothing to set the Zlib compression level for a
 # -zlib_compression attribute.
@@ -42,6 +46,8 @@ $VERSION = 6;
 # An -allow_partial could set allow_partial=> on read().
 #
 # A -quality_percent could set jpegquality=> on write().
+# cf Image::Base::Prima::Image and Image::Base::Gtk2::Gdk::Pixbuf might have
+# similar.
 #
 
 sub new {
@@ -202,10 +208,17 @@ sub save {
     $filename = $self->get('-file');
   }
   my $i = $self->{'-imager'};
+  my $type = _imager_get_file_format($i);
+  my $quality = $self->{'-quality_percent'};
   ### file: $filename
-  ### type: _imager_get_file_format($i)
+  ### type: $type
+
+  # think it's ok to pass undef as $quality, and that the options can be
+  # passed even when not saving to the respective formats
   $i->write (file => $filename,
-             type => _imager_get_file_format($i))
+             type => $type,
+             jpegquality      => $quality,
+             tiff_jpegquality => $quality)
     or croak "Cannot save: ",$i->errstr;
 }
 
@@ -272,6 +285,44 @@ sub ellipse {
   } else {
     ### use superclass ellipse
     shift->SUPER::ellipse (@_);
+  }
+}
+
+sub diamond {
+  my ($self, $x1, $y1, $x2, $y2, $colour, $fill) = @_;
+  ### Image-Base-Imager diamond() ...
+
+  # $imager->polygon() for filled poly is always anti-alias, but don't want
+  # that, or not by default, so polyline() for unfilled and Image::Base for
+  # filled
+
+  if ($fill) {
+    shift->SUPER::diamond(@_);
+  } else {
+    my $xh = ($x2 - $x1 + 1);
+    my $yh = ($y2 - $y1 + 1);
+    my $xeven = ! ($xh & 1);
+    my $yeven = ! ($yh & 1);
+    $xh = int($xh / 2);
+    $yh = int($yh / 2);
+    $self->{'-imager'}->polyline (points => [ [$x1+$xh,$y1],  # top centre
+
+                                              # left
+                                              [$x1,$y1+$yh],
+                                              ($yeven ? [$x1,$y2-$yh] : ()),
+
+                                              # bottom
+                                              [$x1+$xh,$y2],
+                                              ($xeven ? [$x2-$xh,$y2] : ()),
+
+                                              # right
+                                              ($yeven ? [$x2,$y2-$yh] : ()),
+                                              [$x2,$y1+$yh],
+
+                                              ($xeven ? [$x2-$xh,$y1] : ()),
+                                              ($fill ? () : [$x1+$xh,$y1]),
+                                            ],
+                                  color => $colour);
   }
 }
 
@@ -381,6 +432,28 @@ In the current implementation circles (width==height) drawn with Imager and
 ellipses as such go to C<Image::Base>.  This is a bit inconsistent but uses
 the features of Imager as far as possible and its drawing should be faster.
 
+=item C<$image-E<gt>ellipse ($x1,$y1, $x2,$y2, $colour, $fill)>
+
+Draw an ellipse within the rectangle with top-left corner C<$x1>,C<$y1> and
+bottom-right C<$x2>,C<$y2>.  Optional C<$fill> true means a filled ellipse.
+
+In the current implementation circles (width==height) drawn with Imager and
+ellipses as such go to C<Image::Base>.  This is a bit inconsistent but uses
+the features of Imager as far as possible and its drawing should be faster.
+
+=item C<$i-E<gt>diamond ($x0, $y0, $x1, $y1, $colour)>
+
+=item C<$i-E<gt>diamond ($x0, $y0, $x1, $y1, $colour, $fill)>
+
+Draw a diamond shape within the rectangle top left C<$x0,$y0> and bottom
+right C<$x1,$y1> using C<$colour>.  If optional argument C<$fill> is true
+then the diamond is filled.
+
+For reference, in the current implementation unfilled diamonds use the
+Imager C<polyline()> but filled diamonds use the C<Image::Base> code since
+the Imager filled C<polygon()> is always blurred by anti-aliasing and don't
+want that (or not by default).
+
 =item C<$image-E<gt>save>
 
 =item C<$image-E<gt>save ($filename)>
@@ -424,8 +497,8 @@ The underlying C<Imager> object.
 The file format as a string like "png" or "jpeg", or C<undef> if unknown or
 never set.
 
-After C<load> the C<-file_format> is the format read.  Setting
-C<-file_format> can change the format for a subsequent C<save>.
+After C<load()> the C<-file_format> is the format read.  Setting
+C<-file_format> can change the format for a subsequent C<save()>.
 
 This is held in the imager "i_format" tag and passed as the C<type> when
 saving.  If C<undef> when saving, Imager will look at the filename
@@ -449,7 +522,22 @@ non-paletted image.  (The Imager C<colorcount>.)
 
 This is similar to the C<-ncolours> of C<Image::Xpm>.
 
+=item C<-quality_percent> (0 to 100 or C<undef>)
+
+The image quality when saving to JPEG format, or to TIFF format with jpeg
+compression method.  JPEG compresses by reducing colours and resolution in
+ways that are not too noticeable to the human eye.  100 means full quality,
+no such reductions.  C<undef> means the Imager default, which is 75.
+
+C<-quality_percent> becomes the C<jpegquality> and C<tiff_jpegquality>
+options to the Imager write (see L<Imager::Files/JPEG> and
+L<Imager::Files/TIFF>).  TIFF is only affected if its C<tiff_compression>
+tag is set to "jpeg" using Imager C<settag()> (the default is "packbits").
+
 =back
+
+There's no C<-zlib_compression> currently since believe Imager version 0.79
+doesn't have anything to apply that to PNG saving.
 
 =head1 SEE ALSO
 
