@@ -35,7 +35,7 @@ use vars '$VERSION', '@ISA';
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 7;
+$VERSION = 8;
 
 # uncomment this to run the ### lines
 #use Devel::Comments '###';
@@ -454,7 +454,7 @@ Imager C<polyline()> but filled diamonds use the C<Image::Base> code since
 the Imager filled C<polygon()> is always blurred by anti-aliasing and don't
 want that (or not by default).
 
-=item C<$image-E<gt>save>
+=item C<$image-E<gt>save ()>
 
 =item C<$image-E<gt>save ($filename)>
 

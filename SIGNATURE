@@ -15,12 +15,12 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 842745cb706f8f2126506f544492f7a80dbe29b3 COPYING
-SHA1 595c382535b9bcca80c9efd9df0201962bd1fb23 Changes
+SHA1 7b1b0762f472fac7c30686fad0b0a3ea1e03d84e Changes
 SHA1 21ac3df1c62fe8c969b6ad18da015b8df0782fa4 MANIFEST
 SHA1 1d745ef4cc154d3b13bfee6d1048ac4135fc1aa7 MANIFEST.SKIP
-SHA1 9a230efd8f87980a04741722c64e93e9c327eea9 META.yml
+SHA1 2cf2f517cd501f9068c7c69907e54b876078e8a1 META.yml
 SHA1 e13eb6c031ee704fcafef6481be1291f3d8f5d0a Makefile.PL
-SHA1 152a20b0c678953841f3a84ff9427b03d9fede38 debian/changelog
+SHA1 d1a6cc558a09c8941f2547b1ddd9db52aee535b2 debian/changelog
 SHA1 ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 debian/compat
 SHA1 3fb4d304f6e07d6440863cfef973174ad2fb6bb4 debian/control
 SHA1 11eda31fbf516eae32c6a0fe1cd6887d72fe4bf5 debian/copyright
@@ -30,10 +30,10 @@ SHA1 09d03cf5d7c1a8c8899e31c50994acdcfc8bae5c debian/watch
 SHA1 02459c8d9ff9f84d5e4ec17d3ce9a811ecbde73c devel/imager.pl
 SHA1 d34492ea04ab0f004fbb3c5ca8a6bd42a216844e inc/MyMakeMakerExtras.pm
 SHA1 7a988b2aa7ed09f1cb9029a1ef3f0e2139dca0cf inc/my_pod2html
-SHA1 aa71d56501110a65ff2d9112fad4e3bf3aff7ed5 lib/Image/Base/Imager.pm
+SHA1 781a3a5e40a6babd680769fabb3f045235efee1b lib/Image/Base/Imager.pm
 SHA1 94a0305d03df9e35ffd55604f609f31e01d9d2d0 t/Imager-use.t
 SHA1 73bf914c8893bbd686c0a747a7f73eb45bcc5f73 t/Imager-weaken.t
-SHA1 17e71d369c416adf6c937d8043de6ac20daa3781 t/Imager.t
+SHA1 a5b6537009cd27596c788a6133332f1c94744275 t/Imager.t
 SHA1 016f6f5865d54130d50f400fb630091bd1a6c76f t/MyTestHelpers.pm
 SHA1 2844313f42e403c3f519e5a22c01cb3c92ca0454 t/MyTestImageBase.pm
 SHA1 0279c9310ec528d10a2a14e602bf98f1c776cce1 xt/0-META-read.t
@@ -47,7 +47,7 @@ SHA1 daba2840c7f128371d42516619a0e04fee2f5ff4 xt/0-no-debug-left-on.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iD8DBQFOM17hLFMCIV9q3ToRAubEAJ4yeXm5DC3A5fJLr8XGMc/bt5zg4gCeM8wY
-wcJ3LhzSLbiroQrPZ06YRac=
-=K2kX
+iD8DBQFOPHJaLFMCIV9q3ToRAuxOAKCwQ6gfHlIS6rk1VS6Vv1b/ABKC/gCcCQA9
+cZZM/CYdUTrhwI672tEOFIE=
+=oTO2
 -----END PGP SIGNATURE-----

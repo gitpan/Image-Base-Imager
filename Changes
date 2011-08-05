@@ -17,6 +17,9 @@ with Image-Base-Imager.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
+Version 8, August 2011
+    - tests fix test count
+
 Version 7, July 2011
     - new -quality_percent option for JPEG
     - diamond() use polyline

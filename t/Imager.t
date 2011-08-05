@@ -21,7 +21,7 @@ use 5.004;
 use strict;
 use Test;
 BEGIN {
-  plan tests => 2518;
+  plan tests => 2499;
 }
 
 use lib 't';
@@ -48,7 +48,7 @@ require Image::Base::Imager;
 #------------------------------------------------------------------------------
 # VERSION
 
-my $want_version = 7;
+my $want_version = 8;
 ok ($Image::Base::Imager::VERSION,
     $want_version,
     'VERSION variable');
@@ -288,22 +288,29 @@ END {
 #------------------------------------------------------------------------------
 # save -quality_percent
 
-foreach my $file_format (Imager->write_types) {
-  my $image = Image::Base::Imager->new
-    (-width => 100,
-     -height => 50,
-     -file_format => $test_file_format,
-     -quality_percent => 50);
-  $image->save ($temp_filename);
-  ok (-e $temp_filename,
-      1,
-      "save() $file_format with -quality_percent exists");
-  ok (-s $temp_filename > 0,
-      1,
-      "save() $file_format with -quality_percent not empty");
-
-  # system ("ls -l $temp_filename");
-  # system ("file $temp_filename");
+{
+  my $good = 1;
+  foreach my $file_format (Imager->write_types) {
+    my $image = Image::Base::Imager->new
+      (-width => 100,
+       -height => 50,
+       -file_format => $test_file_format,
+       -quality_percent => 50);
+    $image->save ($temp_filename);
+    # system ("ls -l $temp_filename");
+    # system ("file $temp_filename");
+    unless (-e $temp_filename) {
+      MyTestHelpers::diag ("save() $file_format with -quality_percent, file does not exist");
+      $good = 0;
+      next;
+    }
+    unless (-s $temp_filename > 0) {
+      MyTestHelpers::diag ("save() $file_format with -quality_percent, file is empty");
+      $good = 0;
+      next;
+    }
+  }
+  ok ($good, 1, "each write_types with -quality_percent");
 }
 
 
