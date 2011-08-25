@@ -35,7 +35,7 @@ use vars '$VERSION', '@ISA';
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 8;
+$VERSION = 9;
 
 # uncomment this to run the ### lines
 #use Devel::Comments '###';
@@ -44,10 +44,6 @@ $VERSION = 8;
 # -zlib_compression attribute.
 #
 # An -allow_partial could set allow_partial=> on read().
-#
-# A -quality_percent could set jpegquality=> on write().
-# cf Image::Base::Prima::Image and Image::Base::Gtk2::Gdk::Pixbuf might have
-# similar.
 #
 
 sub new {
@@ -149,7 +145,7 @@ sub set {
   if (exists $param{'-file_format'}) {
     my $format = delete $param{'-file_format'};
     if (defined $format) { $format = lc($format); }
-    ### apply -file_format with settag() i_format: lc($param{'-file_format'})
+    ### apply -file_format with settag() i_format: $format
     $i->settag (name => 'i_format', value => $format);
     ### tags now: [$i->tags]
   }
@@ -298,13 +294,23 @@ sub diamond {
 
   if ($fill) {
     shift->SUPER::diamond(@_);
+
   } else {
-    my $xh = ($x2 - $x1 + 1);
-    my $yh = ($y2 - $y1 + 1);
-    my $xeven = ! ($xh & 1);
-    my $yeven = ! ($yh & 1);
+    # 0 1 2 3 4
+    # x1=0, x2=4 -> xh=2
+    #
+    # 0 1 2 3 4 5
+    # x1=0, x2=5 -> xh=2
+    #
+    my $xh = ($x2 - $x1);
+    my $yh = ($y2 - $y1);
+    my $xeven = ($xh & 1);
+    my $yeven = ($yh & 1);
     $xh = int($xh / 2);
     $yh = int($yh / 2);
+    ### assert: $x1+$xh == $x2-$xh || $x1+$xh+1 == $x2-$xh
+    ### assert: $y1+$yh == $y2-$yh || $y1+$yh+1 == $y2-$yh
+
     $self->{'-imager'}->polyline (points => [ [$x1+$xh,$y1],  # top centre
 
                                               # left

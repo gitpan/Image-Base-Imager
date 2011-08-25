@@ -25,16 +25,31 @@ use Imager;
 use Smart::Comments;
 
 {
+  require Image::Base::Imager;
+  my $image = Image::Base::Imager->new (-width => 50, -height => 20);
+  $image->rectangle (0,0, 49,29, 'black');
+
+  $image->diamond (1,1,6,6, 'white');
+  $image->diamond (11,1,16,6, 'white', 1);
+  $image->diamond (1,10,7,16, 'white');
+  $image->diamond (11,10,17,16, 'white', 1);
+
+  $image->save('/tmp/x.png');
+  system ("convert  -monochrome /tmp/x.png /tmp/x.xpm && cat /tmp/x.xpm");
+
+  exit 0;
+}
+
+{
   # diamond
   #
   require Image::Base::Imager;
   my $image = Image::Base::Imager->new
-    (-width => 200, -height => 100,
+    (-width => 50, -height => 25,
      -file_format => 'png');
-  $image->diamond (1,1, 100,50, 'green');
-  $image->diamond (100,50, 199,99, 'orange', 1);
+  $image->diamond (1,1, 7,7, 'green');
   $image->save ('/tmp/x.png');
-  system "xzgv /tmp/x.png";
+  system ('convert /tmp/x.png /tmp/x.xpm && cat /tmp/x.xpm');
   exit 0;
 }
 {
