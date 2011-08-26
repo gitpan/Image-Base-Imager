@@ -1,5 +1,5 @@
-libimage-base-imager-perl (9-1) unstable; urgency=low
+libimage-base-imager-perl (10-1) unstable; urgency=low
 
   * Packaged version.
 
- -- Kevin Ryde <user42@zip.com.au>  Fri, 26 Aug 2011 08:43:28 +1000
+ -- Kevin Ryde <user42@zip.com.au>  Sat, 27 Aug 2011 08:04:04 +1000

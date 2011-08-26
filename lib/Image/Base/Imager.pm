@@ -35,7 +35,7 @@ use vars '$VERSION', '@ISA';
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 9;
+$VERSION = 10;
 
 # uncomment this to run the ### lines
 #use Devel::Comments '###';
@@ -236,12 +236,12 @@ sub xy {
 
   } else {
     my $cobj = $i->getpixel (x => $x, y => $y);
-    my ($r,$g,$b,$a) = $cobj->rgba;
-    ### rgba: "$r,$g,$b,$a"
+    my @rgba = $cobj->rgba;
+    ### @rgba
     # if ($a == 0) {
     #   return 'None';
     # }
-    return sprintf ('#%02X%02X%02X', $r, $b, $g);
+    return sprintf ('#%02X%02X%02X', @rgba[0,1,2]);
   }
 }
 sub line {
@@ -434,17 +434,9 @@ Or an C<Imager> object can be given,
 Draw an ellipse within the rectangle with top-left corner C<$x1>,C<$y1> and
 bottom-right C<$x2>,C<$y2>.  Optional C<$fill> true means a filled ellipse.
 
-In the current implementation circles (width==height) drawn with Imager and
-ellipses as such go to C<Image::Base>.  This is a bit inconsistent but uses
-the features of Imager as far as possible and its drawing should be faster.
-
-=item C<$image-E<gt>ellipse ($x1,$y1, $x2,$y2, $colour, $fill)>
-
-Draw an ellipse within the rectangle with top-left corner C<$x1>,C<$y1> and
-bottom-right C<$x2>,C<$y2>.  Optional C<$fill> true means a filled ellipse.
-
-In the current implementation circles (width==height) drawn with Imager and
-ellipses as such go to C<Image::Base>.  This is a bit inconsistent but uses
+In the current implementation circles an odd number of pixels
+(ie. width==height and odd) are drawn with Imager and ellipses and even
+circles as such go to C<Image::Base>.  This is a bit inconsistent but uses
 the features of Imager as far as possible and its drawing should be faster.
 
 =item C<$i-E<gt>diamond ($x0, $y0, $x1, $y1, $colour)>

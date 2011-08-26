@@ -48,7 +48,7 @@ require Image::Base::Imager;
 #------------------------------------------------------------------------------
 # VERSION
 
-my $want_version = 9;
+my $want_version = 10;
 ok ($Image::Base::Imager::VERSION,
     $want_version,
     'VERSION variable');
@@ -128,7 +128,7 @@ ok (! eval { Image::Base::Imager->VERSION($check_version); 1 },
   $image->xy (2,2, 'black');
   ok ($image->xy (2,2), '#000000', 'xy() black');
   require Imager::Color;
-  $image->xy (3,3, Imager::Color->new(red=>1,blue=>2,green=>3));
+  $image->xy (3,3, Imager::Color->new(red=>1,green=>2,blue=>3));
   ok ($image->xy (3,3), '#010203', 'xy() rgb');
 }
 {
@@ -346,7 +346,12 @@ END {
 #------------------------------------------------------------------------------
 # CUR -hotx, -hoty
 
-my $have_cur = eval { Imager->VERSION(0.52); 1 };
+my $have_cur = eval {
+  # ignore warnings from bad alpha version numbers like 0.82_02
+  local $SIG{'__WARN__'} = sub {};
+  Imager->VERSION(0.52);
+  1
+};
 if (! $have_cur) {
   MyTestHelpers::diag ('CUR new in Imager 0.52, have only', Imager->VERSION);
 }
