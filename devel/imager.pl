@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2011 Kevin Ryde
+# Copyright 2011, 2012 Kevin Ryde
 
 # This file is part of Image-Base-Imager.
 #
@@ -23,6 +23,21 @@ use Imager;
 
 # uncomment this to run the ### lines
 use Smart::Comments;
+
+{
+  # rectangle off-screen
+
+  require Image::Base::Imager;
+  my $image = Image::Base::Imager->new (-width => 50, -height => 20);
+  $image->rectangle (0,0, 49,29, 'black', 1); # filled
+
+  $image->rectangle (-10,-10,6,6, 'white',1);
+
+  $image->save('/tmp/x.png');
+  system ("convert  -monochrome /tmp/x.png /tmp/x.xpm && cat /tmp/x.xpm");
+
+  exit 0;
+}
 
 {
   require Image::Base::Imager;

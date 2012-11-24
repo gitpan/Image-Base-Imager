@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2011 Kevin Ryde
+# Copyright 2011, 2012 Kevin Ryde
 
 # This file is part of Image-Base-Imager.
 #
@@ -17,26 +17,34 @@
 # You should have received a copy of the GNU General Public License along
 # with Image-Base-Imager.  If not, see <http://www.gnu.org/licenses/>.
 
-use 5.006;
+use 5.004;
 use strict;
 use warnings;
-use Test::More;
+use Test;
+
+my $test_count = (tests => 1)[1];
+plan tests => $test_count;
+
 use Image::Base::Imager;
 
 use lib 't';
 use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings() }
 
-eval "use Test::Weaken 2.000; 1"
-  or plan skip_all => "due to Test::Weaken 2.000 not available -- $@";
-diag ("Test::Weaken version ", Test::Weaken->VERSION);
+if (! eval "use Test::Weaken 2.000; 1") {
+  MyTestHelpers::diag("Test::Weaken 2.000 not available -- $@");
+  foreach (1 .. $test_count) {
+    skip ('due to Test::Weaken 2.000 not available', 1, 1);
+  }
+  exit 0;
+}
+MyTestHelpers::diag ("Test::Weaken version ", Test::Weaken->VERSION);
 
-plan tests => 1;
 
 {
   my $leaks = Test::Weaken::leaks
     (sub { return Image::Base::Imager->new (-width => 6, -height => 7) });
-  is ($leaks, undef, 'deep garbage collection');
+  ok ($leaks, undef, 'deep garbage collection');
   MyTestHelpers::test_weaken_show_leaks($leaks);
 }
 

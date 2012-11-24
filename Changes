@@ -1,4 +1,4 @@
-Copyright 2011 Kevin Ryde
+Copyright 2011, 2012 Kevin Ryde
 
 This file is part of Image-Base-Imager.
 
@@ -17,6 +17,10 @@ with Image-Base-Imager.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
+
+Version 11, November 2012
+    - xy() allow for x,y outside image size
+    - tests don't use "raw" as test file type
 
 Version 10, August 2011
     - fix xy() pixel query green/blue return

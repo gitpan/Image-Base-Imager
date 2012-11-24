@@ -1,4 +1,4 @@
-# Copyright 2010, 2011 Kevin Ryde
+# Copyright 2010, 2011, 2012 Kevin Ryde
 
 # This file is part of Image-Base-Imager.
 #
@@ -17,8 +17,8 @@
 
 
 
-# Imager::Draw -- drawing operations
-#
+# cf Imager::Draw -- drawing operations
+# Seems to auto-clip to width,height.
 
 package Image::Base::Imager;
 use 5.004;
@@ -35,10 +35,11 @@ use vars '$VERSION', '@ISA';
 use Image::Base;
 @ISA = ('Image::Base');
 
-$VERSION = 10;
+$VERSION = 11;
 
 # uncomment this to run the ### lines
-#use Devel::Comments '###';
+# use Smart::Comments '###';
+
 
 # As of Imager 0.79 there's nothing to set the Zlib compression level for a
 # -zlib_compression attribute.
@@ -73,9 +74,9 @@ sub new {
       if (! defined $width) { $width = 1; }
       if (! defined $height) { $height = 1; }
     }
-    my $i = $params{'-imager'} = Imager->new (xsize => $width,
-                                              ysize => $height,
-                                              file  => $filename)
+    $params{'-imager'} = Imager->new (xsize => $width,
+                                      ysize => $height,
+                                      file  => $filename)
       || croak "Cannot create image: ",Imager->errstr;
     # set -file as filename, but have already loaded
     $want_load = 0;
@@ -111,8 +112,8 @@ sub _get {
   }
   if (my $method = $attr_to_get_method{$key}) {
     ### $method
-    ### is: $self->{'-imager'}->$method
-    return  $self->{'-imager'}->$method
+    ### is: $self->{'-imager'}->$method()
+    return  $self->{'-imager'}->$method();
   }
   return $self->SUPER::_get ($key);
 }
@@ -236,6 +237,10 @@ sub xy {
 
   } else {
     my $cobj = $i->getpixel (x => $x, y => $y);
+    if (! defined $cobj) {
+      # getpixel() returns undef if x,y outside image size
+      return undef;
+    }
     my @rgba = $cobj->rgba;
     ### @rgba
     # if ($a == 0) {
@@ -269,7 +274,6 @@ sub ellipse {
   my ($self, $x1, $y1, $x2, $y2, $colour, $fill) = @_;
   ### Image-Base-Imager ellipse: "$x1, $y1, $x2, $y2, $colour"
 
-  my $i = $self->{'-imager'};
   my $diam = $x2-$x1;
   if (! ($diam & 1) && $y2-$y1 == $diam) {
     ### use circle
@@ -332,6 +336,9 @@ sub diamond {
   }
 }
 
+#------------------------------------------------------------------------------
+# colours
+
 sub add_colours {
   my $self = shift;
   ### add_colours: @_
@@ -359,7 +366,7 @@ sub add_colours {
 1;
 __END__
 
-=for stopwords PNG Imager filename Ryde Zlib Imager RGB JPEG PNM GIF BMP ICO Paletted paletted pre-load png jpeg imager hotspot Image-Base-Imager paletted
+=for stopwords PNG Imager filename Ryde Zlib Imager RGB JPEG PNM GIF BMP ICO Paletted paletted pre-load png jpeg imager hotspot Image-Base-Imager paletted non-paletted ie packbits
 
 =head1 NAME
 
@@ -411,6 +418,9 @@ C<$imager-E<gt>to_paletted> after all drawing might come out better than
 colours as drawing proceeds.
 
 =head1 FUNCTIONS
+
+See L<Image::Base/FUNCTIONS> for the behaviour common to all Image-Base
+classes.
 
 =over 4
 
@@ -548,7 +558,7 @@ http://user42.tuxfamily.org/image-base-imager/index.html
 
 =head1 LICENSE
 
-Image-Base-Imager is Copyright 2010, 2011 Kevin Ryde
+Image-Base-Imager is Copyright 2010, 2011, 2012 Kevin Ryde
 
 Image-Base-Imager is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free

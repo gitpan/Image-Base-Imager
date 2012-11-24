@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2010, 2011 Kevin Ryde
+# Copyright 2010, 2011, 2012 Kevin Ryde
 
 # This file is part of Image-Base-Imager.
 #
@@ -20,9 +20,9 @@
 use 5.004;
 use strict;
 use Test;
-BEGIN {
-  plan tests => 2499;
-}
+
+my $test_count = (tests => 2505)[1];
+plan tests => $test_count;
 
 use lib 't';
 use MyTestHelpers;
@@ -30,16 +30,24 @@ BEGIN { MyTestHelpers::nowarnings() }
 
 require Imager;
 MyTestHelpers::diag ("Imager VERSION ",Imager->VERSION);
-MyTestHelpers::diag ("Imager write_types: ",join(',',Imager->write_types));
 
 my $test_file_format;
 {
   my @write_types = Imager->write_types;
-  # Can rely on at least one writable type ?
-  # if (! @write_types) {
-  #   plan skip_all => 'due to strange no write_types at all';
-  # }
-  $test_file_format = $write_types[0];
+  MyTestHelpers::diag ("Imager write_types: ",join(',',@write_types));
+
+  # exclude "raw" since it requires xsize,ysize explicitly, the size isn't
+  # in the file
+  my @write_types_not_raw = grep {$_ ne 'raw'} @write_types;
+
+  unless (@write_types_not_raw) {
+    MyTestHelpers::diag ('skip due to no suitable write_types[]');
+    foreach (1 .. $test_count) {
+      skip ('skip due to no suitable write_types[]', 1, 1);
+    }
+    exit 0;
+  }
+  $test_file_format = $write_types_not_raw[0];
   MyTestHelpers::diag ("test_file_format ", $test_file_format);
 }
 
@@ -48,7 +56,7 @@ require Image::Base::Imager;
 #------------------------------------------------------------------------------
 # VERSION
 
-my $want_version = 10;
+my $want_version = 11;
 ok ($Image::Base::Imager::VERSION,
     $want_version,
     'VERSION variable');
@@ -145,7 +153,7 @@ ok (! eval { Image::Base::Imager->VERSION($check_version); 1 },
 # load() errors
 
 my $temp_filename = "tempfile.$test_file_format";
-MyTestHelpers::diag ("Tempfile $temp_filename");
+MyTestHelpers::diag ("Tempfile ",$temp_filename);
 unlink $temp_filename;
 ok (! -e $temp_filename,
     1,
@@ -205,9 +213,13 @@ END {
   };
   my $err = $@;
   # diag "save() err is \"",$err,"\"";
-  ok ($eval_ok, 0, 'save() error for no dir - doesn\'t reach end');
-  ok (! defined $ret, 1, 'save() error for no dir - return undef');
-  ok ($err, '/^Cannot/', 'save() error for no dir - error string "Cannot"');
+
+  ok ($eval_ok, 0,
+      'save() error for no dir - doesn\'t reach end');
+  ok (! defined $ret, 1,
+      'save() error for no dir - return undef');
+  ok ($err, '/^Cannot/',
+      'save() error for no dir - error string "Cannot"');
 }
 {
   my $eval_ok = 0;
